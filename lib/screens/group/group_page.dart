@@ -41,15 +41,12 @@ class _GroupPageState extends State<GroupPage>
 
       print('=== CARREGANDO USUÁRIOS ===');
 
-      // Primeiro verifica se o usuário atual é professor
       final isTeacher = await _userService.isTeacher();
       print('Usuário atual é professor? $isTeacher');
 
-      // Depois busca os usuários
       final users = await _userService.getUsers();
       print('Total de usuários encontrados: ${users.length}');
 
-      // Atualiza o estado
       setState(() {
         _users = users;
         _isTeacher = isTeacher;
@@ -88,21 +85,18 @@ class _GroupPageState extends State<GroupPage>
       final userType = UserType.fromString(user['user_type']);
       print('Verificando usuário: ${user['name']} - Tipo: ${userType.name}');
 
-      // Se o usuário logado é professor, mostrar apenas alunos
       if (_isTeacher) {
         final shouldShow = userType == UserType.aluno;
         print('Professor vendo aluno? $shouldShow');
         return shouldShow;
       }
 
-      // Se o usuário logado é aluno, mostrar apenas professores
       if (!_isTeacher) {
         final shouldShow = userType == UserType.professor;
         print('Aluno vendo professor? $shouldShow');
         return shouldShow;
       }
 
-      // Aplicar filtro de busca se houver
       if (_searchQuery != null && _searchQuery!.isNotEmpty) {
         final name = user['name'].toString().toLowerCase();
         final email = user['email'].toString().toLowerCase();
@@ -123,7 +117,7 @@ class _GroupPageState extends State<GroupPage>
         foregroundColor: Colors.white,
         title: Text(_isTeacher ? 'Meus Alunos' : 'Meus Professores'),
         actions: [
-          if (!_isTeacher) // Mostrar botão de convites apenas para alunos
+          if (!_isTeacher) 
             IconButton(
               icon: const Icon(Icons.notifications),
               onPressed: () {
@@ -131,7 +125,6 @@ class _GroupPageState extends State<GroupPage>
                   context: context,
                   builder: (context) => const PendingInvitesDialog(),
                 ).then((_) {
-                  // Recarregar a lista de grupos após fechar o diálogo
                   setState(() {});
                 });
               },

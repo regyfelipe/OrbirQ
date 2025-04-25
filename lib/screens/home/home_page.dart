@@ -18,7 +18,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // Carregar dados iniciais
     Future.microtask(() {
       context.read<HomeProvider>().loadInitialData();
     });
@@ -48,7 +47,6 @@ class _HomePageState extends State<HomePage> {
       drawer: _buildDrawer(context, authService),
       body: RefreshIndicator(
         onRefresh: () async {
-          // Recarregar dados
           homeProvider.loadInitialData();
         },
         child: SingleChildScrollView(
@@ -589,12 +587,10 @@ class _HomePageState extends State<HomePage> {
 
   void _navigateToProfile(BuildContext context) {
     Navigator.pop(context);
-    // TODO: Implementar navegação para perfil
   }
 
   void _navigateToSettings(BuildContext context) {
     Navigator.pop(context);
-    // TODO: Implementar navegação para configurações
   }
 
   void _showHelpDialog(BuildContext context) {

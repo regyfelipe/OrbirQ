@@ -29,10 +29,8 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.easeIn,
     );
 
-    // Inicia a animação
     _controller.forward();
 
-    // Aguarda 2.5 segundos e navega para a próxima tela
     Future.delayed(const Duration(milliseconds: 2500), () {
       if (mounted) {
         Navigator.pushReplacement(

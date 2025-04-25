@@ -47,7 +47,6 @@ class HomeProvider extends ChangeNotifier {
   }
 
   void loadInitialData() {
-    // Simular carregamento de dados
     _questoesRespondidas = 1275;
     _provasRealizadas = 18;
     _horasEstudadas = 156;

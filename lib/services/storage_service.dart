@@ -12,7 +12,6 @@ class StorageService {
     return StorageService._(prefs);
   }
 
-  // Salvar um valor
   Future<bool> setValue<T>(String key, T value) async {
     key = _prefix + key;
 
@@ -27,12 +26,10 @@ class StorageService {
     } else if (value is List<String>) {
       return await _prefs.setStringList(key, value);
     } else {
-      // Para outros tipos, converte para JSON
       return await _prefs.setString(key, jsonEncode(value));
     }
   }
 
-  // Obter um valor
   T? getValue<T>(String key) {
     key = _prefix + key;
 
@@ -47,7 +44,6 @@ class StorageService {
     } else if (T == List<String>) {
       return _prefs.getStringList(key) as T?;
     } else {
-      // Para outros tipos, tenta decodificar do JSON
       final value = _prefs.getString(key);
       if (value != null) {
         return jsonDecode(value) as T?;
@@ -56,24 +52,20 @@ class StorageService {
     return null;
   }
 
-  // Remover um valor
   Future<bool> removeValue(String key) async {
     key = _prefix + key;
     return await _prefs.remove(key);
   }
 
-  // Limpar todos os valores
   Future<bool> clear() async {
     return await _prefs.clear();
   }
 
-  // Verificar se uma chave existe
   bool hasKey(String key) {
     key = _prefix + key;
     return _prefs.containsKey(key);
   }
 
-  // Obter todas as chaves
   Set<String> getAllKeys() {
     return _prefs.getKeys().where((key) => key.startsWith(_prefix)).toSet();
   }

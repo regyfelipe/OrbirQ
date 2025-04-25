@@ -38,33 +38,28 @@ class QuestoesService {
 
   Future<bool> salvarQuestao(Questao questao) async {
     try {
-      // Upload da imagem se existir
       String? imageUrl;
       if (questao.imagemPath != null) {
         final file = File(questao.imagemPath!);
         final fileExt = questao.imagemPath!.split('.').last;
         final fileName =
             '${questao.id}_${DateTime.now().millisecondsSinceEpoch}.$fileExt';
-        // Removendo 'questoes/' do início do path pois já está incluído na URL base
         final path = fileName;
 
         try {
-          print('Iniciando upload da imagem...'); // Debug
+          print('Iniciando upload da imagem...'); 
           await _supabase.storage.from('questoes').upload(path, file);
-          print('Upload concluído. Gerando URL pública...'); // Debug
+          print('Upload concluído. Gerando URL pública...'); 
 
-          // Obter a URL pública direta
           imageUrl = _supabase.storage.from('questoes').getPublicUrl(path);
-          print('URL pública gerada: $imageUrl'); // Debug
+          print('URL pública gerada: $imageUrl'); 
         } catch (e) {
           print('Erro no upload da imagem: $e');
-          // Continua a execução mesmo se o upload falhar
         }
       }
 
-      print('Salvando questão no banco com URL da imagem: $imageUrl'); // Debug
+      print('Salvando questão no banco com URL da imagem: $imageUrl');
 
-      // Inserir a questão no banco
       await _supabase.from('questions').insert({
         'id': questao.id,
         'professor_id': _supabase.auth.currentUser!.id,
@@ -100,10 +95,8 @@ class QuestoesService {
       if (apenasPublicas) {
         query.eq('is_public', true);
       } else if (user != null) {
-        // Se logado, busca questões públicas e próprias
         query.or('is_public.eq.true,professor_id.eq.${user.id}');
       } else {
-        // Se não logado, apenas públicas
         query.eq('is_public', true);
       }
 
@@ -127,9 +120,8 @@ class QuestoesService {
           .order('created_at', ascending: true);
 
       final questoes = response as List;
-      // Encontra a posição da questão na lista ordenada
       final index = questoes.indexWhere((q) => q['id'] == questaoId);
-      return index + 1; // Retorna a posição + 1 para começar do 1 ao invés do 0
+      return index + 1;
     } catch (e) {
       print('Erro ao buscar número da questão: $e');
       return 0;

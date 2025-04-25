@@ -74,7 +74,6 @@ class _NavigationPageState extends State<NavigationPage> {
       ),
     ];
 
-    // Adiciona itens específicos para professores
     if (widget.userType == UserType.professor) {
       items.insert(
         4,

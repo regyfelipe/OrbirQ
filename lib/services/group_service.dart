@@ -26,7 +26,6 @@ class GroupService {
         };
       }
 
-      // Verificar se o usuário é professor
       final userProfile = await _supabase
           .from('profiles')
           .select('user_type')
@@ -42,7 +41,6 @@ class GroupService {
         };
       }
 
-      // Criar o grupo
       print('Tentando inserir grupo na tabela groups...');
       final response = await _supabase
           .from('groups')
@@ -57,13 +55,10 @@ class GroupService {
       print('Grupo criado com sucesso: ${response.toString()}');
       final groupId = response['id'];
 
-      // Lista para armazenar os membros a serem adicionados
       final membersToAdd = <Map<String, dynamic>>[];
       final invitesToCreate = <Map<String, dynamic>>[];
 
-      // Processar os convites para os alunos
       for (final email in invitedEmails) {
-        // Verificar se o usuário já existe
         final existingUser = await _supabase
             .from('profiles')
             .select()
@@ -71,13 +66,11 @@ class GroupService {
             .maybeSingle();
 
         if (existingUser != null) {
-          // Se o usuário existe, adicionar à lista de membros
           membersToAdd.add({
             'group_id': groupId,
             'user_id': existingUser['id'],
           });
         } else {
-          // Se não existe, adicionar à lista de convites
           invitesToCreate.add({
             'group_id': groupId,
             'email': email,
@@ -86,12 +79,10 @@ class GroupService {
         }
       }
 
-      // Adicionar membros em lote
       if (membersToAdd.isNotEmpty) {
         await _supabase.from('group_members').insert(membersToAdd);
       }
 
-      // Criar convites em lote
       if (invitesToCreate.isNotEmpty) {
         await _supabase.from('group_invites').insert(invitesToCreate);
       }
@@ -147,7 +138,6 @@ class GroupService {
     try {
       print('=== Aceitando convite $inviteId ===');
 
-      // Buscar informações do convite com join inner para garantir que o grupo existe
       final invite = await _supabase.from('group_invites').select('''
             *,
             groups!inner (
@@ -176,14 +166,12 @@ class GroupService {
 
       print('Adicionando usuário $userId ao grupo ${invite['group_id']}');
 
-      // Primeiro atualizar o status do convite para accepted
       await _supabase
           .from('group_invites')
           .update({'status': 'accepted'}).eq('id', inviteId);
 
       print('Status do convite atualizado para accepted');
 
-      // Depois adicionar o usuário como membro
       await _supabase.from('group_members').insert({
         'group_id': invite['group_id'],
         'user_id': userId,
@@ -196,7 +184,6 @@ class GroupService {
       print('Erro: $e');
       print('Stack trace: $stackTrace');
 
-      // Se o erro for de permissão, mostrar mensagem mais amigável
       if (e.toString().contains('42501')) {
         throw Exception('Você não tem permissão para aceitar este convite');
       }
@@ -236,7 +223,6 @@ class GroupService {
 
       List response;
       if (isTeacher) {
-        // Se for professor, busca os grupos que ele criou
         response = await _supabase
             .from('groups')
             .select('''
@@ -247,7 +233,6 @@ class GroupService {
             .eq('created_by', user.id)
             .order('created_at', ascending: false);
       } else {
-        // Se for aluno, busca os grupos dos quais é membro
         response = await _supabase.from('group_members').select('''
               groups (
                 *,
@@ -255,7 +240,6 @@ class GroupService {
               )
             ''').eq('user_id', user.id);
 
-        // Transforma a resposta para manter o mesmo formato
         response = response.map((item) => item['groups']).toList();
       }
 
@@ -275,7 +259,6 @@ class GroupService {
     try {
       print('=== Contando membros do grupo $groupId ===');
 
-      // Contar professor (criador) + alunos
       final groupInfo = await _supabase
           .from('groups')
           .select('created_by')
@@ -288,7 +271,7 @@ class GroupService {
           .eq('group_id', groupId);
 
       final totalCount =
-          1 + (membersCount as List).length; // 1 professor + alunos
+          1 + (membersCount as List).length; 
       print('Total de membros encontrados: $totalCount');
       return totalCount;
     } catch (e, stackTrace) {
@@ -301,14 +284,12 @@ class GroupService {
 
   Future<List<GroupMember>> getGroupMembers(String groupId) async {
     try {
-      // Buscar informações do professor (admin)
       final adminInfo = await _supabase
           .from('profiles')
           .select('id, name')
           .eq('id', _supabase.auth.currentUser!.id)
           .single();
 
-      // Busca informações do grupo e membros (excluindo o professor)
       final response = await _supabase
           .from('group_members')
           .select('*, profiles:user_id(*)')
@@ -317,7 +298,6 @@ class GroupService {
 
       List<GroupMember> groupMembers = [];
 
-      // Adiciona o professor como primeiro membro
       final professor = GroupMember(
         id: adminInfo['id'],
         name: adminInfo['name'],
@@ -327,7 +307,6 @@ class GroupService {
       );
       groupMembers.add(professor);
 
-      // Adiciona os demais membros
       for (final member in response) {
         final profile = member['profiles'] as Map<String, dynamic>;
         groupMembers.add(GroupMember(
@@ -492,7 +471,6 @@ class GroupService {
       final String userEmail = user.email!;
       print('📧 Buscando convites para: $userEmail');
 
-      // Primeiro buscar apenas os convites sem join para debug
       print('🔍 Buscando convites sem join...');
       final basicResponse = await _supabase
           .from('group_invites')
@@ -506,13 +484,10 @@ class GroupService {
         print(basicResponse.first);
       }
 
-      // Agora buscar com o join para comparar
       print('\n🔍 Buscando convites com join...');
 
-      // Primeiro verificar se o grupo existe
       print('\n🔍 Verificando grupo ${basicResponse.first['group_id']}...');
 
-      // Buscar convites com join simples
       final response = await _supabase
           .from('group_invites')
           .select('*, groups(*)')
@@ -537,7 +512,6 @@ class GroupService {
         }
       }
 
-      // Se o grupo não aparecer no join, buscar diretamente
       if (response.isNotEmpty && response[0]['groups'] == null) {
         print('\n🔍 Tentando buscar grupo diretamente...');
         final groupId = response[0]['group_id'];
@@ -546,17 +520,15 @@ class GroupService {
               .from('groups')
               .select('*, profiles:created_by(*)')
               .eq('id', groupId)
-              .maybeSingle();  // Usar maybeSingle em vez de single
+              .maybeSingle();  
               
           print('📋 Dados do grupo:');
           print(groupData);
           
-          // Atualizar o response com os dados do grupo
           if (groupData != null) {
             response[0]['groups'] = groupData;
           } else {
             print('⚠️ Grupo não encontrado ou sem permissão de acesso');
-            // Marcar o convite como inválido
             await _supabase
                 .from('group_invites')
                 .update({'status': 'invalid'})
@@ -650,7 +622,6 @@ class GroupService {
 
       final email = user.email!;
 
-      // Verifica se é membro
       final memberResponse = await _supabase
           .from('group_members')
           .select('joined_at')
@@ -658,7 +629,6 @@ class GroupService {
           .eq('user_id', user.id)
           .maybeSingle();
 
-      // Verifica se tem convite
       final inviteResponse = await _supabase
           .from('group_invites')
           .select('status, created_at')
@@ -689,7 +659,6 @@ class GroupService {
     try {
       print('=== Buscando detalhes completos do grupo $groupId ===');
 
-      // Buscar informações do grupo
       final groupInfo = await _supabase.from('groups').select('''
             *,
             profiles!groups_created_by_fkey (
@@ -700,17 +669,13 @@ class GroupService {
             )
           ''').eq('id', groupId).single();
 
-      // Buscar membros
       final members = await getGroupMembers(groupId);
-
-      // Buscar contagem de mensagens
       final messagesCount = await _supabase
           .from('group_messages')
           .select()
           .eq('group_id', groupId)
           .count();
 
-      // Verificar se o usuário atual é admin (criador do grupo)
       final currentUserId = _supabase.auth.currentUser?.id;
       final isAdmin = currentUserId == groupInfo['created_by'];
 
@@ -753,7 +718,6 @@ class GroupService {
         throw Exception('Usuário não está autenticado');
       }
 
-      // Verificar se o usuário é professor
       final userProfile = await _supabase
           .from('profiles')
           .select('user_type')
@@ -765,7 +729,6 @@ class GroupService {
         throw Exception('Apenas professores podem enviar convites');
       }
 
-      // Verificar se o grupo existe e se o usuário é o criador
       final groupInfo = await _supabase
           .from('groups')
           .select('name, created_by')
@@ -785,17 +748,14 @@ class GroupService {
       print('✓ Grupo encontrado: ${groupInfo['name']}');
       print('✓ Usuário é o criador do grupo');
 
-      // Buscar IDs dos usuários pelos emails
       final existingUsers = await _supabase
           .from('profiles')
           .select('id, email')
           .filter('email', 'in', emails);
 
-      // Criar mapa de email para id
       final emailToId = Map.fromEntries(existingUsers.map(
           (user) => MapEntry(user['email'] as String, user['id'] as String)));
 
-      // Verificar membros existentes do grupo
       final existingMembers = await _supabase
           .from('group_members')
           .select('user_id')
@@ -816,7 +776,6 @@ class GroupService {
         }
       }
 
-      // Verificar convites pendentes
       final existingInvites = await _supabase
           .from('group_invites')
           .select('email')
@@ -834,7 +793,6 @@ class GroupService {
         }
       }
 
-      // Filtrar emails que podem receber convites
       final emailsToInvite = emails
           .where((email) =>
               !existingMemberEmails.contains(email) &&
@@ -861,7 +819,6 @@ class GroupService {
               })
           .toList();
 
-      // Inserir convites e retornar os dados inseridos
       final insertedInvites =
           await _supabase.from('group_invites').insert(newInvites).select();
 

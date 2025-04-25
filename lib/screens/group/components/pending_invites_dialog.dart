@@ -72,7 +72,6 @@ class _PendingInvitesDialogState extends State<PendingInvitesDialog> {
       if (mounted) {
         setState(() => _isLoading = false);
 
-        // Mostrar diálogo de erro para mensagens específicas
         if (e.toString().contains('grupo foi deletado')) {
           await showDialog(
             context: context,
@@ -93,7 +92,6 @@ class _PendingInvitesDialogState extends State<PendingInvitesDialog> {
             ),
           );
         } else {
-          // Para outros erros, mostrar snackbar
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Erro ao processar convite: $e'),

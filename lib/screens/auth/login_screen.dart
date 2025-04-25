@@ -37,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (success && mounted) {
-        // Navegar para a NavigationPage após login bem-sucedido
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -47,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } else if (mounted) {
-        // Mostrar mensagem de erro
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -87,7 +85,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Logo
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 60.0, top: 20.0),
@@ -111,13 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
 
-                  // Form Fields
                   Form(
                     key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Campo de e-mail
                         Text(
                           'E-mail',
                           style: TextStyle(
@@ -165,7 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Campo de senha
                         Text(
                           'Senha',
                           style: TextStyle(
@@ -221,7 +215,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
 
-                        // Esqueceu a senha
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
@@ -251,7 +244,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 20),
 
-                        // Botão de login
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -285,7 +277,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
 
-                        // OU
+                        
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
                           child: Row(
@@ -317,12 +309,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
 
-                        // Google Sign In Button
                         SizedBox(
                           width: double.infinity,
                           child: OutlinedButton.icon(
                             onPressed: () {
-                              // Implementar login com Google
                             },
                             icon: FaIcon(
                               FontAwesomeIcons.google,
@@ -349,7 +339,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         const SizedBox(height: 30),
 
-                        // Link para criar conta
                         Center(
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

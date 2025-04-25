@@ -168,7 +168,6 @@ void showFilterModal(BuildContext context, String filterName) {
     builder: (context) => FilterModal(filterName: filterName),
   ).then((selectedItems) {
     if (selectedItems != null) {
-      // Aqui você pode usar os itens selecionados
       print('Itens selecionados: $selectedItems');
     }
   });

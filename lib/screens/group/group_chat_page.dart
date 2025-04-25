@@ -3,8 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/group.dart'
-    hide GroupMessage; // Ignorar GroupMessage deste arquivo
-import '../../models/group_message.dart'; // Usar GroupMessage deste arquivo
+    hide GroupMessage; 
+import '../../models/group_message.dart'; 
 import '../../themes/colors.dart';
 import '../../services/group_service.dart';
 import '../../services/group_message_service.dart';
@@ -37,17 +37,14 @@ class _GroupChatPageState extends State<GroupChatPage> {
   @override
   void initState() {
     super.initState();
-    // Adicionar listener para detectar quando o usuário rola manualmente
     _scrollController.addListener(_scrollListener);
   }
 
   void _scrollListener() {
-    // Se o usuário rolar manualmente para cima, não fazer scroll automático
     if (_scrollController.position.pixels <
         _scrollController.position.maxScrollExtent) {
       _shouldScroll = false;
     }
-    // Se o usuário rolar até o final, voltar a fazer scroll automático
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent) {
       _shouldScroll = true;
@@ -178,7 +175,6 @@ class _GroupChatPageState extends State<GroupChatPage> {
                                 ],
                               ),
 
-                            // Estatísticas do grupo
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -196,7 +192,6 @@ class _GroupChatPageState extends State<GroupChatPage> {
                             ),
                             const SizedBox(height: 24),
 
-                            // Lista de membros
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -324,7 +319,6 @@ class _GroupChatPageState extends State<GroupChatPage> {
 
                     final messages = snapshot.data!;
 
-                    // Scroll para o final apenas se necessário
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       _scrollToBottom();
                     });
@@ -382,7 +376,6 @@ class _GroupChatPageState extends State<GroupChatPage> {
           content: _messageController.text,
         );
         _messageController.clear();
-        // Habilitar scroll automático ao enviar mensagem
         _shouldScroll = true;
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -442,16 +435,13 @@ class _GroupChatPageState extends State<GroupChatPage> {
         final fileName =
             'chat_${DateTime.now().millisecondsSinceEpoch}.$fileExt';
 
-        // Upload para o storage do Supabase
         await _supabase.storage
             .from('chat_attachments')
             .uploadBinary(fileName, file);
 
-        // Obter URL pública
         final fileUrl =
             _supabase.storage.from('chat_attachments').getPublicUrl(fileName);
 
-        // Enviar mensagem com anexo
         await _messageService.sendMessage(
           groupId: widget.group.id,
           content: '📎 Imagem',
@@ -478,16 +468,13 @@ class _GroupChatPageState extends State<GroupChatPage> {
         final fileName =
             'chat_${DateTime.now().millisecondsSinceEpoch}_${file.name}';
 
-        // Upload para o storage do Supabase
         await _supabase.storage
             .from('chat_attachments')
             .uploadBinary(fileName, file.bytes!);
 
-        // Obter URL pública
         final fileUrl =
             _supabase.storage.from('chat_attachments').getPublicUrl(fileName);
 
-        // Enviar mensagem com anexo
         await _messageService.sendMessage(
           groupId: widget.group.id,
           content: '📎 Arquivo: ${file.name}',

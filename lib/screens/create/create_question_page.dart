@@ -18,7 +18,6 @@ class _CreateQuestionPageState extends State<CreateQuestionPage> {
   final _formKey = GlobalKey<FormState>();
   final _scrollController = ScrollController();
 
-  // Controllers
   final TextEditingController _disciplinaController = TextEditingController();
   final TextEditingController _assuntoController = TextEditingController();
   final TextEditingController _perguntaController = TextEditingController();
@@ -30,7 +29,6 @@ class _CreateQuestionPageState extends State<CreateQuestionPage> {
   final TextEditingController _autorController = TextEditingController();
   final TextEditingController _textoApoioController = TextEditingController();
 
-  // Seleções
   String? _selectedBanca;
   String? _selectedAno;
   bool _isInedita = false;
@@ -41,7 +39,6 @@ class _CreateQuestionPageState extends State<CreateQuestionPage> {
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
 
-  // Listas de opções
   final List<String> _bancas = ['CESPE', 'FGV', 'VUNESP', 'IBFC', 'FUNDATEC'];
   final List<String> _anos =
       List.generate(10, (index) => (DateTime.now().year - index).toString());
@@ -442,13 +439,13 @@ class _CreateQuestionPageState extends State<CreateQuestionPage> {
               ..._alternativasControllers.asMap().entries.map((entry) {
                 final index = entry.key;
                 final controller = entry.value;
-                final label = String.fromCharCode(65 + index); // A, B, C, D, E
+                final label = String.fromCharCode(65 + index); 
                 return _buildAlternativaField(
                   controller: controller,
                   label: label,
                   isSelected: _selectedResposta == label,
                   onSelect: () => setState(() => _selectedResposta = label),
-                  onDelete: index > 1 // Permitir deletar apenas C, D, E
+                  onDelete: index > 1
                       ? () {
                           setState(() {
                             _alternativasControllers.removeAt(index);
@@ -710,7 +707,6 @@ class _CreateQuestionPageState extends State<CreateQuestionPage> {
   }
 
   void _limparCampos() {
-    // Limpar todos os controllers
     _disciplinaController.clear();
     _assuntoController.clear();
     _perguntaController.clear();
@@ -718,18 +714,15 @@ class _CreateQuestionPageState extends State<CreateQuestionPage> {
     _autorController.clear();
     _textoApoioController.clear();
 
-    // Limpar alternativas
     for (var controller in _alternativasControllers) {
-      controller.dispose(); // Liberar os controllers antigos
+      controller.dispose();
     }
     _alternativasControllers.clear();
-    // Recriar as alternativas A e B
     _alternativasControllers.addAll([
       TextEditingController(),
       TextEditingController(),
     ]);
 
-    // Resetar todos os estados
     setState(() {
       _selectedBanca = null;
       _selectedAno = null;
@@ -740,12 +733,10 @@ class _CreateQuestionPageState extends State<CreateQuestionPage> {
       _isPublic = false;
     });
 
-    // Resetar o formulário
     if (_formKey.currentState != null) {
       _formKey.currentState!.reset();
     }
 
-    // Voltar para o topo do formulário
     _scrollController.animateTo(
       0,
       duration: const Duration(milliseconds: 500),

@@ -54,7 +54,6 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Adicionar ação do botão
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Funcionalidade em desenvolvimento'),
@@ -69,7 +68,6 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Adicionar ação do botão flutuante
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Nova funcionalidade em breve!'),

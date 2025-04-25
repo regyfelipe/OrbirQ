@@ -9,7 +9,6 @@ class UserService {
     try {
       print('=== BUSCANDO USUÁRIOS NO BANCO ===');
 
-      // Primeiro, pegar o usuário atual para saber seu tipo
       final currentUser = await getCurrentUserProfile();
       if (currentUser == null) {
         print('Usuário atual não encontrado');
@@ -19,17 +18,13 @@ class UserService {
       final isTeacher = currentUser['user_type'] == 'professor';
       print('Usuário atual é professor? $isTeacher');
 
-      // Buscar usuários com base no tipo do usuário atual
       final query = _supabase
           .from('profiles')
           .select('id, name, email, user_type')
-          .neq('id', currentUser['id']); // Não incluir o usuário atual
-
+          .neq('id', currentUser['id']); 
       if (isTeacher) {
-        // Professor vê apenas alunos
         query.eq('user_type', 'aluno');
       } else {
-        // Aluno vê apenas professores
         query.eq('user_type', 'professor');
       }
 
@@ -76,7 +71,6 @@ class UserService {
 
       if (response == null) {
         print('Perfil não encontrado, criando novo perfil...');
-        // Criar perfil se não existir
         final newProfile = {
           'id': user.id,
           'email': user.email,

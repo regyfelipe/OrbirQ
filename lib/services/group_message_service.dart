@@ -8,9 +8,7 @@ class GroupMessageService {
   final _messagesController = StreamController<List<GroupMessage>>.broadcast();
   List<GroupMessage> _currentMessages = [];
 
-  // Stream de mensagens de um grupo
   Stream<List<GroupMessage>> getGroupMessages(String groupId) {
-    // Configurar o canal de realtime
     _channel = _supabase.channel(
       'group_messages:$groupId',
       opts: const RealtimeChannelConfig(
@@ -19,7 +17,6 @@ class GroupMessageService {
       ),
     );
 
-    // Inscrever no canal
     _channel!
         .onPostgresChanges(
           event: PostgresChangeEvent.all,
@@ -31,20 +28,17 @@ class GroupMessageService {
             value: groupId,
           ),
           callback: (payload) async {
-            print('Mudança detectada: $payload'); // Debug
-            // Atualizar lista de mensagens
+            print('Mudança detectada: $payload'); 
             await _refreshMessages(groupId);
           },
         )
         .subscribe();
 
-    // Carregar mensagens iniciais
     _refreshMessages(groupId);
 
     return _messagesController.stream;
   }
 
-  // Atualizar mensagens
   Future<void> _refreshMessages(String groupId) async {
     try {
       final response = await _supabase
@@ -64,11 +58,8 @@ class GroupMessageService {
                 createdAt: DateTime.parse(row['created_at']),
               ))
           .toList();
-
-      // Ordenar mensagens por data
       _currentMessages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
-      // Enviar atualização para o stream
       if (!_messagesController.isClosed) {
         _messagesController.add(_currentMessages);
       }
@@ -77,7 +68,6 @@ class GroupMessageService {
     }
   }
 
-  // Enviar uma mensagem
   Future<void> sendMessage({
     required String groupId,
     required String content,
@@ -87,15 +77,13 @@ class GroupMessageService {
     if (user == null) throw Exception('Usuário não autenticado');
 
     try {
-      print('Enviando mensagem para o grupo $groupId'); // Debug
+      print('Enviando mensagem para o grupo $groupId'); 
 
-      // Buscar nome do usuário
       final profile =
           await _supabase.from('profiles').select().eq('id', user.id).single();
 
       final timestamp = DateTime.now().toUtc().toIso8601String();
 
-      // Enviar mensagem
       await _supabase.from('group_messages').insert({
         'group_id': groupId,
         'user_id': user.id,
@@ -105,21 +93,19 @@ class GroupMessageService {
         'created_at': timestamp,
       });
 
-      print('Mensagem enviada com sucesso: $content'); // Debug
+      print('Mensagem enviada com sucesso: $content'); 
 
-      // Atualizar mensagens imediatamente após enviar
       await _refreshMessages(groupId);
     } catch (e) {
-      print('Erro ao enviar mensagem: $e'); // Debug
+      print('Erro ao enviar mensagem: $e'); 
       rethrow;
     }
   }
 
-  // Buscar mensagens antigas
   Future<List<GroupMessage>> getOldMessages(String groupId,
       {int limit = 50}) async {
     try {
-      print('Buscando mensagens antigas do grupo $groupId'); // Debug
+      print('Buscando mensagens antigas do grupo $groupId'); 
 
       final response = await _supabase
           .from('group_messages')
@@ -128,8 +114,7 @@ class GroupMessageService {
           .order('created_at', ascending: true)
           .limit(limit);
 
-      print('Encontradas ${response.length} mensagens antigas'); // Debug
-
+      print('Encontradas ${response.length} mensagens antigas'); 
       return response
           .map((row) => GroupMessage(
                 id: row['id'],
@@ -143,12 +128,11 @@ class GroupMessageService {
           .toList()
           .cast<GroupMessage>();
     } catch (e) {
-      print('Erro ao buscar mensagens antigas: $e'); // Debug
+      print('Erro ao buscar mensagens antigas: $e'); 
       rethrow;
     }
   }
 
-  // Limpar recursos
   void dispose() {
     _channel?.unsubscribe();
     _messagesController.close();

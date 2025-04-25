@@ -87,7 +87,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
 
                 if (_emailSent)
-                  // Mensagem de sucesso
                   Column(
                     children: [
                       const SizedBox(height: 20),
@@ -158,7 +157,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ],
                   )
                 else
-                  // Formulário de recuperação
                   Form(
                     key: _formKey,
                     child: Column(
@@ -183,7 +181,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                         const SizedBox(height: 30),
 
-                        // Campo e-mail
                         Text(
                           'E-mail',
                           style: TextStyle(
@@ -229,7 +226,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                         const SizedBox(height: 24),
 
-                        // Botão de enviar
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -262,7 +258,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                         const SizedBox(height: 30),
 
-                        // Link para voltar ao login
                         Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

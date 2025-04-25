@@ -21,7 +21,7 @@ class _QuestionPageState extends State<QuestionPage> {
   bool _showExplanation = false;
   bool _isBookmarked = false;
   bool _expandedTextoApoio = false;
-  final int _totalTime = 300; // 5 minutos em segundos
+  final int _totalTime = 300; 
   int _timeRemaining = 300;
   bool _timerActive = false;
 
@@ -108,7 +108,6 @@ class _QuestionPageState extends State<QuestionPage> {
       _timerActive = false;
     });
 
-    // Registrar atividade
     homeProvider.addAtividade(
       ActivityItem(
         id: DateTime.now().toString(),

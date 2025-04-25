@@ -31,10 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  // Método para registrar usuário
   Future<void> _register() async {
     if (_formKey.currentState!.validate() && _agreeToTerms) {
-      // Usar o serviço de autenticação para registrar o usuário
       final authService = Provider.of<AuthService>(context, listen: false);
 
       try {
@@ -56,10 +54,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
 
-          // Navegar de volta para a tela de login após o registro
           Navigator.pop(context);
         } else if (mounted) {
-          // Mostrar mensagem de erro
           print('Falha no registro: ${authService.error}');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -108,7 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Logo
+                  
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 40.0, top: 10.0),
@@ -134,7 +130,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
 
-                  // Nome completo
                   Text(
                     'Nome',
                     style: TextStyle(
@@ -176,7 +171,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Email
                   Text(
                     'E-mail',
                     style: TextStyle(
@@ -222,7 +216,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Senha
                   Text(
                     'Senha',
                     style: TextStyle(
@@ -282,7 +275,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 24),
 
-                  // Confirmar senha
                   Text(
                     'Confirmar Senha',
                     style: TextStyle(
@@ -342,7 +334,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 24),
 
-                  // Tipo de usuário
                   Text(
                     'Tipo de Usuário',
                     style: TextStyle(
@@ -406,7 +397,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                   const SizedBox(height: 24),
 
-                  // Checkbox de Termos de Uso
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -444,7 +434,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 24),
 
-                  // Botão de Registro
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -465,7 +454,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                   const SizedBox(height: 24),
 
-                  // Link para login
                   Center(
                     child: Row(
                       mainAxisSize: MainAxisSize.min,

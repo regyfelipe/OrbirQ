@@ -18,7 +18,6 @@ class AuthService extends ChangeNotifier {
   String? get userName => _userName;
 
   Future<void> initialize() async {
-    // Adiciona listener para criação automática de perfil
     Supabase.instance.client.auth.onAuthStateChange.listen((data) {
       final AuthChangeEvent event = data.event;
       final Session? session = data.session;
@@ -33,7 +32,6 @@ class AuthService extends ChangeNotifier {
     try {
       print('Verificando/criando perfil para usuário ${user.id}');
 
-      // Verifica se o perfil já existe
       final existingProfile = await _supabase
           .from('profiles')
           .select()
@@ -43,7 +41,6 @@ class AuthService extends ChangeNotifier {
       if (existingProfile == null) {
         print('Perfil não encontrado, criando novo perfil...');
 
-        // Cria o perfil se não existir
         await _supabase.from('profiles').insert({
           'id': user.id,
           'email': user.email,
@@ -71,7 +68,6 @@ class AuthService extends ChangeNotifier {
       print('=== INICIANDO LOGIN ===');
       print('Email: $email');
 
-      // 1. Tentar fazer login
       final response = await _supabase.auth.signInWithPassword(
         email: email,
         password: password,
@@ -86,7 +82,6 @@ class AuthService extends ChangeNotifier {
       print('Login bem sucedido. ID do usuário: ${response.user!.id}');
       _currentUser = response.user;
 
-      // 2. Verificar se o perfil existe
       print('Verificando perfil existente...');
       final existingProfile = await _supabase
           .from('profiles')
@@ -96,7 +91,6 @@ class AuthService extends ChangeNotifier {
 
       if (existingProfile == null) {
         print('Perfil não encontrado, criando novo perfil...');
-        // 3. Criar perfil se não existir
         final newProfile = {
           'id': response.user!.id,
           'email': response.user!.email,
@@ -107,7 +101,6 @@ class AuthService extends ChangeNotifier {
         await _supabase.from('profiles').insert(newProfile);
         print('Novo perfil criado com sucesso');
 
-        // Atualizar dados do usuário com o novo perfil
         _userType = UserType.aluno;
         _userName = newProfile['name'];
       } else {
@@ -143,7 +136,6 @@ class AuthService extends ChangeNotifier {
       print('=== INICIANDO REGISTRO ===');
       print('Email: $email');
 
-      // 1. Primeiro, verificar se já existe uma conta
       final existingUser = await _supabase
           .from('profiles')
           .select()
@@ -158,7 +150,6 @@ class AuthService extends ChangeNotifier {
 
       print('Email disponível, prosseguindo com registro...');
 
-      // 2. Realizar o cadastro do usuário no Auth
       final response = await _supabase.auth.signUp(
         email: email,
         password: password,
@@ -173,7 +164,6 @@ class AuthService extends ChangeNotifier {
 
       print('Usuário criado no Auth com sucesso. ID: ${response.user!.id}');
 
-      // 3. Criar ou atualizar o perfil na tabela profiles
       try {
         await _supabase.from('profiles').upsert({
           'id': response.user!.id,
@@ -186,7 +176,6 @@ class AuthService extends ChangeNotifier {
 
         print('Perfil criado/atualizado com sucesso na tabela profiles');
 
-        // Atualizar o usuário atual
         _currentUser = response.user;
         _userType = userType;
         _userName = name;
@@ -195,8 +184,6 @@ class AuthService extends ChangeNotifier {
         return true;
       } catch (profileError) {
         print('Erro ao criar perfil: $profileError');
-        // Não podemos deletar o usuário pois não temos permissão admin
-        // Vamos apenas deslogar o usuário
         await _supabase.auth.signOut();
         throw profileError;
       }
@@ -206,7 +193,6 @@ class AuthService extends ChangeNotifier {
       print('Stack trace: $stackTrace');
       _error = _handleError(e);
 
-      // Garantir logout em caso de erro
       try {
         await _supabase.auth.signOut();
       } catch (e) {
@@ -259,13 +245,12 @@ class AuthService extends ChangeNotifier {
       if (session != null) {
         _currentUser = session.user;
 
-        // Buscar o perfil completo do usuário
         final userData = await _supabase
             .from('profiles')
             .select('user_type, name')
             .eq('id', session.user!.id)
-            .limit(1) // Limita a quantidade de resultados a 1
-            .maybeSingle(); // Usa maybeSingle() para evitar erro se não encontrar nenhum ou mais de um registro
+            .limit(1) 
+            .maybeSingle();
 
         if (userData != null) {
           _userType = UserType.fromString(userData['user_type']);
@@ -306,22 +291,21 @@ class AuthService extends ChangeNotifier {
         case 'Unable to validate email address: invalid format':
           return 'O formato do email é inválido';
         default:
-          print('Erro original: ${e.message}'); // Para debug
+          print('Erro original: ${e.message}'); 
           return 'Erro no cadastro: ${e.message}';
       }
     } else if (e is PostgrestException) {
-      // Erros relacionados ao banco de dados
       switch (e.code) {
-        case '23505': // unique_violation
+        case '23505': 
           return 'Este usuário já existe no sistema';
-        case '23502': // not_null_violation
+        case '23502': 
           return 'Por favor, preencha todos os campos obrigatórios';
         default:
-          print('Erro Postgres: ${e.message}'); // Para debug
+          print('Erro Postgres: ${e.message}'); 
           return 'Erro no banco de dados: ${e.message}';
       }
     }
-    print('Erro não categorizado: $e'); // Para debug
+    print('Erro não categorizado: $e');
     return 'Ocorreu um erro inesperado. Por favor, tente novamente.';
   }
 }

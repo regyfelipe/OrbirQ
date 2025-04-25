@@ -123,14 +123,12 @@ class GroupMessageItem extends StatelessWidget {
             ),
           ),
           onTap: () {
-            // Abrir URL do arquivo em uma nova aba/janela
-            // TODO: Implementar download do arquivo
+   
           },
         );
       }
     }
 
-    // Mensagem de texto simples
     return Text(
       message.content,
       style: TextStyle(

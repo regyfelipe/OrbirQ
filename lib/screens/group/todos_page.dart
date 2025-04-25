@@ -8,7 +8,7 @@ class TodosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: 10, // Exemplo com 10 itens
+      itemCount: 10,
       itemBuilder: (context, index) {
         return Card(
           margin: const EdgeInsets.only(bottom: 8),
@@ -21,7 +21,6 @@ class TodosPage extends StatelessWidget {
             subtitle: Text('Descrição da tarefa ${index + 1}'),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
-              // TODO: Implementar navegação para detalhes da tarefa
             },
           ),
         );
