@@ -1,0 +1,2 @@
+C:/Users/fep.ink/Desktop/OrbirQ-main/OrbirQ-main/android/app/.cxx/Debug/5f45102n/x86/CMakeFiles/edit_cache.dir
+C:/Users/fep.ink/Desktop/OrbirQ-main/OrbirQ-main/android/app/.cxx/Debug/5f45102n/x86/CMakeFiles/rebuild_cache.dir

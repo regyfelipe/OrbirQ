@@ -1,0 +1,132 @@
+{
+  "questoes": [
+    {
+      "id": "1",
+      "disciplina": "Direito do Trabalho",
+      "assunto": "Acidentes de Trabalho",
+      "pergunta": "Homem, 55 anos, funcionário da construção civil, caiu de um andaime durante seu expediente de trabalho e fraturou o fêmur direito. Como se caracteriza esse acidente de trabalho?",
+      "alternativas": [
+        "Ato Acidental ou Acidente de Trabalho Típico",
+        "Doenças profissionais",
+        "Doenças do trabalho",
+        "Acidentes de trajeto",
+        "Acidentes atípicos"
+      ],
+      "resposta": "A",
+      "explicacao": "De acordo com a legislação trabalhista, este caso se caracteriza como Ato Acidental ou Acidente de Trabalho Típico, pois ocorreu durante o exercício do trabalho, foi um evento súbito, resultou em lesão corporal e aconteceu no local e horário de trabalho. Este tipo de acidente é o mais comum e está previsto no art. 19 da Lei nº 8.213/91.",
+      "banca": "CPCON",
+      "cargo": "Técnico em Segurança do Trabalho",
+      "ano": "2024",
+      "orgao": "Prefeitura Municipal de Lagoa Seca",
+      "area": "Direito",
+      "dificuldade": "Médio",
+      "escolaridade": "Médio",
+      "regiao": "Nordeste"
+    },
+    {
+      "id": "2",
+      "disciplina": "Direito Administrativo",
+      "assunto": "Lei 8.112/90",
+      "pergunta": "Sobre o Regime Jurídico dos Servidores Públicos Civis da União (Lei 8.112/90), assinale a alternativa correta em relação à posse e ao exercício:",
+      "alternativas": [
+        "A posse ocorrerá no prazo de 30 dias contados da publicação do resultado final do concurso",
+        "É de 15 dias o prazo para o servidor empossado em cargo público entrar em exercício, contados da data da posse",
+        "A posse em cargo público independe de prévia inspeção médica oficial",
+        "O servidor que deva ter exercício em outro município em razão de ter sido removido terá, no mínimo, 10 dias de prazo, contados da publicação do ato, para a retomada do efetivo desempenho das atribuições do cargo",
+        "A promoção interrompe o tempo de exercício, que é contado no novo posicionamento na carreira a partir da publicação do ato"
+      ],
+      "resposta": "B",
+      "explicacao": "De acordo com o art. 15 da Lei 8.112/90, exercício é o efetivo desempenho das atribuições do cargo público ou da função de confiança. § 1º É de 15 (quinze) dias o prazo para o servidor empossado em cargo público entrar em exercício, contados da data da posse.",
+      "banca": "CESPE",
+      "cargo": "Analista Judiciário",
+      "ano": "2024",
+      "orgao": "TRT",
+      "area": "Direito",
+      "dificuldade": "Médio",
+      "escolaridade": "Superior",
+      "regiao": "Nacional"
+    },
+    {
+      "id": "3",
+      "disciplina": "Direito Constitucional",
+      "assunto": "Organização do Estado",
+      "pergunta": "Em relação à organização do Estado na Constituição Federal de 1988, assinale a alternativa correta:",
+      "alternativas": [
+        "A organização político-administrativa da República Federativa do Brasil compreende a União, os Estados, o Distrito Federal e os Municípios, sendo todos autônomos, nos termos da Constituição",
+        "Os Territórios Federais integram a União, e sua criação, transformação em Estado ou reintegração ao Estado de origem serão reguladas em lei complementar",
+        "Os Estados podem incorporar-se entre si, subdividir-se ou desmembrar-se para se anexarem a outros, ou formarem novos Estados, mediante aprovação do Congresso Nacional",
+        "A criação, a incorporação, a fusão e o desmembramento de Municípios far-se-ão por lei estadual, independentemente de consulta prévia às populações dos Municípios envolvidos",
+        "É vedado à União, aos Estados, ao Distrito Federal e aos Municípios estabelecer cultos religiosos ou igrejas, exceto se houver interesse público devidamente justificado"
+      ],
+      "resposta": "A",
+      "explicacao": "A alternativa A está correta, pois reproduz exatamente o que estabelece o art. 18 da Constituição Federal: 'A organização político-administrativa da República Federativa do Brasil compreende a União, os Estados, o Distrito Federal e os Municípios, todos autônomos, nos termos desta Constituição.'",
+      "banca": "FGV",
+      "cargo": "Analista",
+      "ano": "2024",
+      "orgao": "MPU",
+      "area": "Direito",
+      "dificuldade": "Médio",
+      "escolaridade": "Superior",
+      "regiao": "Nacional"
+    },
+    {
+      "id": "4",
+      "disciplina": "Matemática",
+      "assunto": "Geometria Analítica",
+      "pergunta": "Considere um triângulo ABC onde A(1,1), B(4,5) e C(7,1). Qual é a área deste triângulo?",
+      "alternativas": [
+        "12 unidades quadradas",
+        "18 unidades quadradas",
+        "24 unidades quadradas",
+        "30 unidades quadradas",
+        "36 unidades quadradas"
+      ],
+      "resposta": "A",
+      "explicacao": "Para calcular a área do triângulo, podemos usar a fórmula: Área = |Dx|/2, onde D é o determinante da matriz formada pelos pontos. Substituindo os valores: D = |1 1 1|/2 = 12 unidades quadradas.",
+      "isInedita": true,
+      "autor": "Prof. Maria Silva",
+      "dificuldade": "Médio",
+      "escolaridade": "Médio"
+    },
+    {
+      "id": "5",
+      "disciplina": "Português",
+      "assunto": "Interpretação de Texto",
+      "pergunta": "Com base no texto de apoio, qual é a principal crítica feita pelo autor em relação ao uso excessivo das redes sociais?",
+      "textoApoio": "As redes sociais transformaram profundamente a forma como nos comunicamos no século XXI. Se por um lado elas aproximam pessoas distantes e democratizam o acesso à informação, por outro lado têm criado uma geração cada vez mais dependente de validação externa e menos capaz de manter relacionamentos profundos no mundo real. O paradoxo é evidente: quanto mais conectados virtualmente, mais isolados nos tornamos fisicamente.",
+      "alternativas": [
+        "A dependência de validação externa",
+        "O excesso de informações falsas",
+        "O tempo gasto online",
+        "O custo das redes sociais",
+        "A falta de privacidade"
+      ],
+      "resposta": "A",
+      "explicacao": "O texto critica principalmente a dependência de validação externa gerada pelas redes sociais, destacando como isso afeta negativamente os relacionamentos reais.",
+      "banca": "VUNESP",
+      "ano": "2024",
+      "dificuldade": "Médio",
+      "escolaridade": "Superior"
+    },
+    {
+      "id": "6",
+      "disciplina": "Biologia",
+      "assunto": "Anatomia Humana",
+      "pergunta": "Observe a imagem do sistema circulatório humano. Qual estrutura está indicada pela seta vermelha?",
+      "alternativas": [
+        "Artéria aorta",
+        "Veia cava superior",
+        "Átrio direito",
+        "Ventrículo esquerdo",
+        "Válvula mitral"
+      ],
+      "resposta": "D",
+      "explicacao": "A estrutura indicada pela seta vermelha é o ventrículo esquerdo, responsável por bombear o sangue rico em oxigênio para todo o corpo através da artéria aorta.",
+      "imagemPath": "assets/images/sistema_circulatorio.png",
+      "banca": "FUNDATEC",
+      "ano": "2024",
+      "dificuldade": "Difícil",
+      "escolaridade": "Superior"
+    }
+  ]
+} 
